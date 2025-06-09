@@ -23,7 +23,7 @@ import DownloadRouter from './routes/download.routes.js';
 const app = express();
 
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://admin.inframeschool.com'],
+    origin: ['http://localhost:3000', 'https://admin.inframeschool.com', 'https://test3-iota-ten.vercel.app'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
