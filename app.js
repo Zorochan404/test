@@ -18,6 +18,7 @@ import CampusEventRouter from './routes/campusEvent.routes.js';
 import GalleryImageRouter from './routes/galleryImage.routes.js';
 import SportsFacilityRouter from './routes/sportsFacility.routes.js';
 import ContactRouter from './routes/contact.routes.js';
+import DownloadRouter from './routes/download.routes.js';
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use('/api/v1/campusevent', CampusEventRouter);
 app.use('/api/v1/galleryimage', GalleryImageRouter);
 app.use('/api/v1/sportsfacility', SportsFacilityRouter);
 app.use('/api/v1/contact', ContactRouter);
+app.use('/api/v1/download', DownloadRouter);
  
 
 app.listen(PORT, async()=> {
