@@ -11,14 +11,12 @@ const SectionSchema = new mongoose.Schema({
     required: [true, 'Section title is required'],
     trim: true,
     minLength: 2,
-    maxLength: 300,
   },
   content: {
     type: String,
     required: [true, 'Section content is required'],
     trim: true,
     minLength: 10,
-    maxLength: 10000,
   },
   image: {
     type: String,
@@ -27,22 +25,18 @@ const SectionSchema = new mongoose.Schema({
   quote: {
     type: String,
     trim: true,
-    maxLength: 500,
   },
   quoteAuthor: {
     type: String,
     trim: true,
-    maxLength: 100,
   },
   highlights: [{
     type: String,
     trim: true,
-    maxLength: 200,
   }],
   highlightTitle: {
     type: String,
     trim: true,
-    maxLength: 200,
   },
 });
 
@@ -57,7 +51,6 @@ const RelatedPostSchema = new mongoose.Schema({
     required: [true, 'Related post title is required'],
     trim: true,
     minLength: 2,
-    maxLength: 200,
   },
   image: {
     type: String,
@@ -69,7 +62,6 @@ const RelatedPostSchema = new mongoose.Schema({
     required: [true, 'Related post category is required'],
     trim: true,
     minLength: 2,
-    maxLength: 50,
   },
 });
 
@@ -79,7 +71,6 @@ const AuthorSchema = new mongoose.Schema({
     required: [true, 'Author name is required'],
     trim: true,
     minLength: 2,
-    maxLength: 100,
   },
   image: {
     type: String,
@@ -96,21 +87,18 @@ const BlogSchema = new mongoose.Schema({
     trim: true,
     lowercase: true,
     minLength: 3,
-    maxLength: 200,
   },
   title: {
     type: String,
     required: [true, 'Title is required'],
     trim: true,
     minLength: 5,
-    maxLength: 300,
   },
   excerpt: {
     type: String,
     required: [true, 'Excerpt is required'],
     trim: true,
     minLength: 10,
-    maxLength: 500,
   },
   heroImage: {
     type: String,
@@ -122,7 +110,6 @@ const BlogSchema = new mongoose.Schema({
     required: [true, 'Category is required'],
     trim: true,
     minLength: 2,
-    maxLength: 50,
   },
   date: {
     type: String,
