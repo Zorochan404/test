@@ -146,7 +146,10 @@ const seedBlogData = async () => {
                         category: "Education"
                     }
                 ],
+                status: 'published',
                 isPublished: true,
+                isDraft: false,
+                publishedAt: new Date('2025-02-28'),
                 views: 0
             },
             {
@@ -188,14 +191,77 @@ const seedBlogData = async () => {
         const additionalCreatedBlogs = await Blog.create(additionalBlogs);
         console.log(`Created ${additionalCreatedBlogs.length} additional blog posts`);
 
-        const totalBlogs = 1 + additionalCreatedBlogs.length;
+        // Create some draft blogs
+        const draftBlogs = [
+            {
+                slug: "upcoming-design-trends-2025",
+                title: "Upcoming Design Trends 2025 - What Students Should Know",
+                excerpt: "Explore the latest design trends that will shape the industry in 2025 and how Inframe School is preparing students for the future.",
+                heroImage: "https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                category: "Design Trends",
+                date: "March 5, 2025",
+                readTime: "7 min read",
+                author: {
+                    name: "Inframe School Team",
+                    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80"
+                },
+                sections: [
+                    {
+                        id: "intro",
+                        title: "Introduction",
+                        content: "The design industry is constantly evolving, and 2025 promises to bring exciting new trends that will reshape how we approach creative work. This draft explores the emerging trends that our students should be aware of."
+                    }
+                ],
+                relatedPosts: [],
+                status: 'draft',
+                isPublished: false,
+                isDraft: true,
+                views: 0
+            },
+            {
+                slug: "student-portfolio-tips",
+                title: "Building an Outstanding Design Portfolio - Student Guide",
+                excerpt: "Essential tips and strategies for design students to create portfolios that stand out to employers and showcase their best work.",
+                heroImage: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                category: "Student Resources",
+                date: "March 10, 2025",
+                readTime: "8 min read",
+                author: {
+                    name: "Inframe School Team",
+                    image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80"
+                },
+                sections: [
+                    {
+                        id: "intro",
+                        title: "Portfolio Fundamentals",
+                        content: "A strong portfolio is crucial for design students entering the job market. This guide covers the essential elements that make a portfolio stand out."
+                    }
+                ],
+                relatedPosts: [],
+                status: 'draft',
+                isPublished: false,
+                isDraft: true,
+                views: 0
+            }
+        ];
+
+        const draftCreatedBlogs = await Blog.create(draftBlogs);
+        console.log(`Created ${draftCreatedBlogs.length} draft blog posts`);
+
+        const totalBlogs = 1 + additionalCreatedBlogs.length + draftCreatedBlogs.length;
         console.log(`\n✅ Created ${totalBlogs} blog posts successfully!`);
 
         // Display summary
         const allBlogs = await Blog.find();
+        const publishedCount = await Blog.countDocuments({ status: 'published' });
+        const draftCount = await Blog.countDocuments({ status: 'draft' });
+
         console.log('\n📚 Blog Posts Created:');
+        console.log(`📊 Status Summary: ${publishedCount} Published, ${draftCount} Drafts\n`);
+
         allBlogs.forEach((blog, index) => {
-            console.log(`${index + 1}. ${blog.title} (${blog.category}) - ${blog.readTime}`);
+            const statusIcon = blog.status === 'published' ? '✅' : blog.status === 'draft' ? '📝' : '📦';
+            console.log(`${index + 1}. ${statusIcon} ${blog.title} (${blog.category}) - ${blog.readTime} [${blog.status.toUpperCase()}]`);
         });
 
         process.exit(0);

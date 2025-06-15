@@ -12,7 +12,7 @@ export const createBlog = async (req, res, next) => {
 
 export const getBlogs = async (req, res, next) => {
     try {
-        const blogs = await Blog.find({ isPublished: true }).sort({ createdAt: -1 });
+        const blogs = await Blog.find({ status: 'published' }).sort({ publishedAt: -1, createdAt: -1 });
 
         res.status(200).json({ success: true, data: blogs });
     } catch (e) {
@@ -66,8 +66,8 @@ export const getBlogsByCategory = async (req, res, next) => {
     try {
         const blogs = await Blog.find({
             category: req.params.category,
-            isPublished: true
-        }).sort({ createdAt: -1 });
+            status: 'published'
+        }).sort({ publishedAt: -1, createdAt: -1 });
 
         res.status(200).json({ success: true, data: blogs });
     } catch (e) {
@@ -77,7 +77,7 @@ export const getBlogsByCategory = async (req, res, next) => {
 
 export const getPublishedBlogs = async (req, res, next) => {
     try {
-        const blogs = await Blog.find({ isPublished: true }).sort({ createdAt: -1 });
+        const blogs = await Blog.find({ status: 'published' }).sort({ publishedAt: -1, createdAt: -1 });
 
         res.status(200).json({ success: true, data: blogs });
     } catch (e) {
@@ -87,7 +87,7 @@ export const getPublishedBlogs = async (req, res, next) => {
 
 export const getPopularBlogs = async (req, res, next) => {
     try {
-        const blogs = await Blog.find({ isPublished: true })
+        const blogs = await Blog.find({ status: 'published' })
             .sort({ views: -1 })
             .limit(10);
 
@@ -137,13 +137,119 @@ export const toggleBlogPublishStatus = async (req, res, next) => {
             return res.status(404).json({ success: false, message: "Blog not found" });
         }
 
-        blog.isPublished = !blog.isPublished;
+        // Toggle between draft and published
+        if (blog.status === 'published') {
+            blog.status = 'draft';
+        } else if (blog.status === 'draft') {
+            blog.status = 'published';
+        }
+
         await blog.save();
 
         res.status(200).json({
             success: true,
             data: blog,
-            message: `Blog ${blog.isPublished ? 'published' : 'unpublished'} successfully`
+            message: `Blog ${blog.status === 'published' ? 'published' : 'saved as draft'} successfully`
+        });
+    } catch (e) {
+        next(e);
+    }
+};
+
+// Get draft blogs
+export const getDraftBlogs = async (req, res, next) => {
+    try {
+        const blogs = await Blog.find({ status: 'draft' }).sort({ updatedAt: -1 });
+
+        res.status(200).json({ success: true, data: blogs });
+    } catch (e) {
+        next(e);
+    }
+};
+
+// Get blogs by status
+export const getBlogsByStatus = async (req, res, next) => {
+    try {
+        const { status } = req.params;
+
+        if (!['draft', 'published', 'archived'].includes(status)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid status. Must be one of: draft, published, archived"
+            });
+        }
+
+        const blogs = await Blog.find({ status }).sort({ updatedAt: -1 });
+
+        res.status(200).json({ success: true, data: blogs });
+    } catch (e) {
+        next(e);
+    }
+};
+
+// Publish a draft blog
+export const publishBlog = async (req, res, next) => {
+    try {
+        const blog = await Blog.findByIdAndUpdate(
+            req.params.id,
+            { status: 'published' },
+            { new: true, runValidators: true }
+        );
+
+        if (!blog) {
+            return res.status(404).json({ success: false, message: "Blog not found" });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: blog,
+            message: "Blog published successfully"
+        });
+    } catch (e) {
+        next(e);
+    }
+};
+
+// Save blog as draft
+export const saveBlogAsDraft = async (req, res, next) => {
+    try {
+        const blog = await Blog.findByIdAndUpdate(
+            req.params.id,
+            { status: 'draft' },
+            { new: true, runValidators: true }
+        );
+
+        if (!blog) {
+            return res.status(404).json({ success: false, message: "Blog not found" });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: blog,
+            message: "Blog saved as draft successfully"
+        });
+    } catch (e) {
+        next(e);
+    }
+};
+
+// Archive a blog
+export const archiveBlog = async (req, res, next) => {
+    try {
+        const blog = await Blog.findByIdAndUpdate(
+            req.params.id,
+            { status: 'archived' },
+            { new: true, runValidators: true }
+        );
+
+        if (!blog) {
+            return res.status(404).json({ success: false, message: "Blog not found" });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: blog,
+            message: "Blog archived successfully"
         });
     } catch (e) {
         next(e);

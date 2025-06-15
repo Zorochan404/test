@@ -30,6 +30,12 @@ console.log(`   curl ${BASE_URL}/getpublishedblogs\n`);
 console.log('GET Popular Blogs:');
 console.log(`   curl ${BASE_URL}/getpopularblogs\n`);
 
+console.log('GET Draft Blogs:');
+console.log(`   curl ${BASE_URL}/getdraftblogs\n`);
+
+console.log('GET Blogs by Status:');
+console.log(`   curl ${BASE_URL}/getblogsbystatus/draft\n`);
+
 console.log('GET Blog by ID:');
 console.log(`   curl ${BASE_URL}/getblogbyid/BLOG_ID\n`);
 
@@ -43,6 +49,15 @@ console.log('PUT Update Blog:');
 console.log(`   curl -X PUT ${BASE_URL}/updateblog/BLOG_ID \\`);
 console.log('     -H "Content-Type: application/json" \\');
 console.log('     -d \'{"title":"Updated Blog Title"}\'\n');
+
+console.log('PUT Publish Blog:');
+console.log(`   curl -X PUT ${BASE_URL}/publishblog/BLOG_ID\n`);
+
+console.log('PUT Save as Draft:');
+console.log(`   curl -X PUT ${BASE_URL}/saveblogasdraft/BLOG_ID\n`);
+
+console.log('PUT Archive Blog:');
+console.log(`   curl -X PUT ${BASE_URL}/archiveblog/BLOG_ID\n`);
 
 console.log('PUT Toggle Publish Status:');
 console.log(`   curl -X PUT ${BASE_URL}/toggleblogpublishstatus/BLOG_ID\n`);
@@ -155,16 +170,50 @@ fetch('${BASE_URL}/getpopularblogs')
 
 console.log('Admin Dashboard:');
 console.log(`
-// Admin: Get all blogs including unpublished
+// Admin: Get all blogs including drafts
 fetch('${BASE_URL}/getallblogs')
   .then(response => response.json())
   .then(data => {
     if (data.success) {
       data.data.forEach(blog => {
-        console.log(\`\${blog.title} - Published: \${blog.isPublished}\`);
+        console.log(\`\${blog.title} - Status: \${blog.status} - Published: \${blog.isPublished}\`);
       });
     }
   });
+
+// Admin: Get only draft blogs
+fetch('${BASE_URL}/getdraftblogs')
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      console.log(\`Found \${data.data.length} draft blogs\`);
+    }
+  });
+
+// Admin: Get blogs by status
+const getBlogsByStatus = async (status) => {
+  const response = await fetch(\`${BASE_URL}/getblogsbystatus/\${status}\`);
+  const data = await response.json();
+  return data.success ? data.data : [];
+};
+
+// Admin: Publish a draft blog
+const publishBlog = async (blogId) => {
+  const response = await fetch(\`${BASE_URL}/publishblog/\${blogId}\`, {
+    method: 'PUT'
+  });
+  const result = await response.json();
+  console.log(result.message);
+};
+
+// Admin: Save blog as draft
+const saveDraft = async (blogId) => {
+  const response = await fetch(\`${BASE_URL}/saveblogasdraft/\${blogId}\`, {
+    method: 'PUT'
+  });
+  const result = await response.json();
+  console.log(result.message);
+};
 
 // Admin: Toggle publish status
 const togglePublish = async (blogId) => {
@@ -267,7 +316,9 @@ console.log('===============');
 console.log('• Rich content structure with sections, quotes, highlights');
 console.log('• SEO-friendly slug-based URLs');
 console.log('• View count tracking and analytics');
-console.log('• Publish/unpublish functionality');
+console.log('• Draft/Published/Archived status management');
+console.log('• Save as draft functionality');
+console.log('• Publish date tracking');
 console.log('• Category-based organization');
 console.log('• Related posts linking');
 console.log('• Author information with images');

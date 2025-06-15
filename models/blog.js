@@ -139,9 +139,22 @@ const BlogSchema = new mongoose.Schema({
     type: [RelatedPostSchema],
     default: [],
   },
+  status: {
+    type: String,
+    enum: ['draft', 'published', 'archived'],
+    default: 'draft',
+    required: [true, 'Status is required'],
+  },
   isPublished: {
     type: Boolean,
+    default: false,
+  },
+  isDraft: {
+    type: Boolean,
     default: true,
+  },
+  publishedAt: {
+    type: Date,
   },
   views: {
     type: Number,
@@ -150,10 +163,54 @@ const BlogSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
+// Pre-save middleware to update isPublished and isDraft based on status
+BlogSchema.pre('save', function(next) {
+  if (this.status === 'published') {
+    this.isPublished = true;
+    this.isDraft = false;
+    if (!this.publishedAt) {
+      this.publishedAt = new Date();
+    }
+  } else if (this.status === 'draft') {
+    this.isPublished = false;
+    this.isDraft = true;
+    this.publishedAt = undefined;
+  } else if (this.status === 'archived') {
+    this.isPublished = false;
+    this.isDraft = false;
+  }
+  next();
+});
+
+// Pre-update middleware for findOneAndUpdate operations
+BlogSchema.pre(['findOneAndUpdate', 'updateOne', 'updateMany'], function(next) {
+  const update = this.getUpdate();
+
+  if (update.status === 'published') {
+    update.isPublished = true;
+    update.isDraft = false;
+    if (!update.publishedAt) {
+      update.publishedAt = new Date();
+    }
+  } else if (update.status === 'draft') {
+    update.isPublished = false;
+    update.isDraft = true;
+    update.publishedAt = undefined;
+  } else if (update.status === 'archived') {
+    update.isPublished = false;
+    update.isDraft = false;
+  }
+
+  next();
+});
+
 // Indexes for efficient querying
 BlogSchema.index({ slug: 1 });
 BlogSchema.index({ category: 1 });
+BlogSchema.index({ status: 1 });
 BlogSchema.index({ isPublished: 1 });
+BlogSchema.index({ isDraft: 1 });
+BlogSchema.index({ publishedAt: -1 });
 BlogSchema.index({ createdAt: -1 });
 
 const Blog = mongoose.model('Blog', BlogSchema);
