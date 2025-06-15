@@ -12,6 +12,7 @@ const SectionSchema = new mongoose.Schema({
     trim: true,
     minLength: 2,
   },
+ 
   content: {
     type: String,
     required: [true, 'Section content is required'],
@@ -93,6 +94,16 @@ const BlogSchema = new mongoose.Schema({
     required: [true, 'Title is required'],
     trim: true,
     minLength: 5,
+  },
+   metatitle: {
+    type: String,
+    required: [true, 'Section title is required'],
+    minLength: 2,
+  },
+  metadescription: {
+    type: String,
+    required: [true, 'Section title is required'],
+    minLength: 2,
   },
   excerpt: {
     type: String,
