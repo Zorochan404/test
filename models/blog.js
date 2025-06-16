@@ -167,6 +167,30 @@ const BlogSchema = new mongoose.Schema({
   publishedAt: {
     type: Date,
   },
+  metaTitle: {
+    type: String,
+    trim: true,
+    maxLength: 60,
+    default: '',
+  },
+  metaDescription: {
+    type: String,
+    trim: true,
+    maxLength: 160,
+    default: '',
+  },
+  metaKeywords: {
+    type: String,
+    trim: true,
+    maxLength: 255,
+    default: '',
+  },
+  canonicalUrl: {
+    type: String,
+    trim: true,
+    maxLength: 500,
+    default: '',
+  },
   views: {
     type: Number,
     default: 0,

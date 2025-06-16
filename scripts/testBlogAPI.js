@@ -87,7 +87,11 @@ console.log('           "id": "intro",\n');
 console.log('           "title": "Introduction",\n');
 console.log('           "content": "This is the introduction content."\n');
 console.log('         }\n');
-console.log('       ]\n');
+console.log('       ],\n');
+console.log('       "metaTitle": "Test Blog Post | Inframe School",\n');
+console.log('       "metaDescription": "This is a test blog post for demonstration purposes.",\n');
+console.log('       "metaKeywords": "test, blog, demo, inframe school",\n');
+console.log('       "canonicalUrl": "https://inframeschool.com/blog/test-blog-post"\n');
 console.log('     }\'\n');
 
 // Frontend Integration Examples
@@ -265,7 +269,11 @@ console.log(JSON.stringify({
       image: "https://example.com/related-image.jpg",
       category: "Education"
     }
-  ]
+  ],
+  metaTitle: "Sample Blog Post Title | Inframe School",
+  metaDescription: "This is a sample meta description for SEO purposes, describing the blog post content.",
+  metaKeywords: "sample, blog, SEO, meta tags, inframe school",
+  canonicalUrl: "https://inframeschool.com/blog/sample-blog-post"
 }, null, 2));
 
 // Expected Responses
@@ -291,6 +299,10 @@ console.log(JSON.stringify({
     sections: "...(array of sections)",
     relatedPosts: "...(array of related posts)",
     isPublished: true,
+    metaTitle: "Top 5 Reasons to Choose Inframe School | Best Design School",
+    metaDescription: "Discover why Inframe School stands out as one of the best design schools in India.",
+    metaKeywords: "Inframe School, best design school India, arts design school Rajasthan",
+    canonicalUrl: "https://inframeschool.com/blog/top-5-reasons-to-choose-inframe-school",
     views: 42,
     createdAt: "2024-01-15T10:30:00.000Z",
     updatedAt: "2024-01-15T10:30:00.000Z"
@@ -315,6 +327,7 @@ console.log('\n✅ KEY FEATURES');
 console.log('===============');
 console.log('• Rich content structure with sections, quotes, highlights');
 console.log('• SEO-friendly slug-based URLs');
+console.log('• Complete SEO meta fields (title, description, keywords, canonical)');
 console.log('• View count tracking and analytics');
 console.log('• Draft/Published/Archived status management');
 console.log('• Save as draft functionality');

@@ -146,6 +146,10 @@ const seedBlogData = async () => {
                         category: "Education"
                     }
                 ],
+                metaTitle: "Top 5 Reasons to Choose Inframe School | Best Design School India",
+                metaDescription: "Discover why Inframe School stands out as one of the best design schools in India and the top arts & design school in Rajasthan.",
+                metaKeywords: "Inframe School, best design school India, arts design school Rajasthan, design education, creative school",
+                canonicalUrl: "https://inframeschool.com/blog/top-5-reasons-to-choose-inframe-school",
                 status: 'published',
                 isPublished: true,
                 isDraft: false,
@@ -178,6 +182,10 @@ const seedBlogData = async () => {
                     }
                 ],
                 relatedPosts: [],
+                metaTitle: "State-of-the-Art Facilities at Inframe School | Modern Design Labs",
+                metaDescription: "Take a virtual tour of our modern facilities designed to inspire creativity and foster innovation in design education.",
+                metaKeywords: "Inframe School facilities, design labs, modern infrastructure, creative spaces, design education",
+                canonicalUrl: "https://inframeschool.com/blog/state-of-the-art-facilities",
                 isPublished: true,
                 views: 0
             }
@@ -213,6 +221,10 @@ const seedBlogData = async () => {
                     }
                 ],
                 relatedPosts: [],
+                metaTitle: "Upcoming Design Trends 2025 - What Students Should Know",
+                metaDescription: "Explore the latest design trends that will shape the industry in 2025 and how Inframe School is preparing students for the future.",
+                metaKeywords: "design trends 2025, future design, student preparation, industry trends, design education",
+                canonicalUrl: "https://inframeschool.com/blog/upcoming-design-trends-2025",
                 status: 'draft',
                 isPublished: false,
                 isDraft: true,
@@ -238,6 +250,10 @@ const seedBlogData = async () => {
                     }
                 ],
                 relatedPosts: [],
+                metaTitle: "Building an Outstanding Design Portfolio - Student Guide",
+                metaDescription: "Essential tips and strategies for design students to create portfolios that stand out to employers and showcase their best work.",
+                metaKeywords: "design portfolio, student guide, portfolio tips, design career, job preparation",
+                canonicalUrl: "https://inframeschool.com/blog/student-portfolio-tips",
                 status: 'draft',
                 isPublished: false,
                 isDraft: true,

@@ -88,6 +88,30 @@ The Blog Posts API provides comprehensive CRUD operations for managing blog cont
   publishedAt: {
     type: Date
   },
+  metaTitle: {
+    type: String,
+    trim: true,
+    maxLength: 60,
+    default: ''
+  },
+  metaDescription: {
+    type: String,
+    trim: true,
+    maxLength: 160,
+    default: ''
+  },
+  metaKeywords: {
+    type: String,
+    trim: true,
+    maxLength: 255,
+    default: ''
+  },
+  canonicalUrl: {
+    type: String,
+    trim: true,
+    maxLength: 500,
+    default: ''
+  },
   views: {
     type: Number,
     default: 0
@@ -136,7 +160,11 @@ The Blog Posts API provides comprehensive CRUD operations for managing blog cont
       "image": "https://example.com/related-image.jpg",
       "category": "Education"
     }
-  ]
+  ],
+  "metaTitle": "Top 5 Reasons to Choose Inframe School | Best Design School",
+  "metaDescription": "Discover why Inframe School stands out as one of the best design schools in India and the top arts & design school in Rajasthan.",
+  "metaKeywords": "Inframe School, best design school India, arts design school Rajasthan",
+  "canonicalUrl": "https://inframeschool.com/blog/top-5-reasons-to-choose-inframe-school"
 }
 ```
 
@@ -245,6 +273,10 @@ The Blog Posts API provides comprehensive CRUD operations for managing blog cont
     "isPublished": true,
     "isDraft": false,
     "publishedAt": "2025-02-28T10:30:00.000Z",
+    "metaTitle": "Top 5 Reasons to Choose Inframe School | Best Design School",
+    "metaDescription": "Discover why Inframe School stands out as one of the best design schools in India.",
+    "metaKeywords": "Inframe School, best design school India, arts design school Rajasthan",
+    "canonicalUrl": "https://inframeschool.com/blog/top-5-reasons-to-choose-inframe-school",
     "views": 42,
     "createdAt": "2024-01-15T10:30:00.000Z",
     "updatedAt": "2024-01-15T10:30:00.000Z"
@@ -384,11 +416,15 @@ curl -X POST http://localhost:5500/api/v1/blog/addblog \
 - Author information with images
 - Related posts linking
 
-### ✅ SEO Friendly
+### ✅ SEO Optimization
 
 - Unique slug-based URLs
-- Meta information (excerpt, read time)
+- Meta title (max 60 characters)
+- Meta description (max 160 characters)
+- Meta keywords (max 255 characters)
+- Canonical URL for duplicate content prevention
 - Category organization
+- Publish date tracking
 
 ### ✅ Analytics
 
@@ -453,6 +489,10 @@ docs/
 - **Author**: Name and image required
 - **Sections**: At least one section required
 - **Section Content**: 10-10000 characters per section
+- **Meta Title**: Max 60 characters (optional, for SEO)
+- **Meta Description**: Max 160 characters (optional, for SEO)
+- **Meta Keywords**: Max 255 characters (optional, for SEO)
+- **Canonical URL**: Max 500 characters (optional, for SEO)
 
 ## UI Integration
 
