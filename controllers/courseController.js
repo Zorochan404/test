@@ -552,3 +552,29 @@ export const deleteCourseCareerProspect = async (req, res, next) => {
         next(e);
     }
 };
+
+// Utility function to generate slug
+export const generateSlugFromTitle = async (req, res, next) => {
+    try {
+        const { title } = req.params;
+        const slug = title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '');
+
+        // Check if slug already exists
+        const existingCourse = await Course.findOne({ slug });
+        const isUnique = !existingCourse;
+
+        res.status(200).json({
+            success: true,
+            data: {
+                slug,
+                isUnique,
+                suggestedSlug: isUnique ? slug : `${slug}-${Date.now()}`
+            }
+        });
+    } catch (e) {
+        next(e);
+    }
+};

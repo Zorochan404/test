@@ -25,6 +25,7 @@ import AboutUsCoreValueRouter from './routes/aboutUsCoreValue.routes.js';
 import AboutUsCampusImageRouter from './routes/aboutUsCampusImage.routes.js';
 import AboutUsContentRouter from './routes/aboutUsContent.routes.js';
 import CourseRouter from './routes/course.routes.js';
+import UploadRouter from './routes/upload.routes.js';
 
 const app = express();
 
@@ -60,6 +61,7 @@ app.use('/api/v1/about-us/core-values', AboutUsCoreValueRouter);
 app.use('/api/v1/about-us/campus-images', AboutUsCampusImageRouter);
 app.use('/api/v1/about-us/content', AboutUsContentRouter);
 app.use('/api/v1/courses', CourseRouter);
+app.use('/api/v1/upload', UploadRouter);
  
 
 app.listen(PORT, async()=> {

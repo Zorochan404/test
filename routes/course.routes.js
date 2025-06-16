@@ -35,7 +35,9 @@ import {
     // Career Prospect operations
     addCourseCareerProspect,
     updateCourseCareerProspect,
-    deleteCourseCareerProspect
+    deleteCourseCareerProspect,
+    // Utility functions
+    generateSlugFromTitle
 } from '../controllers/courseController.js';
 
 const CourseRouter = Router();
@@ -84,5 +86,8 @@ CourseRouter.delete('/:courseId/software/:softwareId', deleteCourseSoftware);
 CourseRouter.post('/:courseId/career-prospects', addCourseCareerProspect);
 CourseRouter.put('/:courseId/career-prospects/:careerProspectId', updateCourseCareerProspect);
 CourseRouter.delete('/:courseId/career-prospects/:careerProspectId', deleteCourseCareerProspect);
+
+// Additional utility endpoints
+CourseRouter.get('/generate-slug/:title', generateSlugFromTitle);
 
 export default CourseRouter;

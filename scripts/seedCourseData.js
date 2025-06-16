@@ -122,6 +122,7 @@ const seedCourseData = async () => {
                             "Material Studies"
                         ],
                         description: "Foundation year focusing on basic design principles and fundamental skills.",
+                        imageUrl: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=600&q=80",
                         order: 1
                     },
                     {
@@ -136,7 +137,38 @@ const seedCourseData = async () => {
                             "Construction Technology"
                         ],
                         description: "Intermediate level with focus on technical skills and software proficiency.",
+                        imageUrl: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&q=80",
                         order: 2
+                    },
+                    {
+                        year: "Third Year",
+                        semester: "Semester 5 & 6",
+                        subjects: [
+                            "Advanced Space Planning",
+                            "Project Management",
+                            "Sustainable Design",
+                            "Building Codes and Regulations",
+                            "Client Interaction",
+                            "Portfolio Development"
+                        ],
+                        description: "Advanced concepts and real-world application of interior design principles.",
+                        imageUrl: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=80",
+                        order: 3
+                    },
+                    {
+                        year: "Fourth Year",
+                        semester: "Semester 7 & 8",
+                        subjects: [
+                            "Thesis Project",
+                            "Industry Internship",
+                            "Professional Practice",
+                            "Business Development",
+                            "Advanced Visualization",
+                            "Specialization Electives"
+                        ],
+                        description: "Final year focusing on specialization, thesis project, and industry preparation.",
+                        imageUrl: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&q=80",
+                        order: 4
                     }
                 ],
                 software: [
@@ -157,26 +189,62 @@ const seedCourseData = async () => {
                         logoUrl: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=200&q=80",
                         description: "Professional 3D modeling, animation, and rendering software",
                         order: 3
+                    },
+                    {
+                        name: "V-Ray",
+                        logoUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=200&q=80",
+                        description: "Advanced rendering engine for photorealistic visualizations",
+                        order: 4
+                    },
+                    {
+                        name: "Adobe Photoshop",
+                        logoUrl: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=200&q=80",
+                        description: "Image editing and post-processing for design presentations",
+                        order: 5
+                    },
+                    {
+                        name: "Revit",
+                        logoUrl: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=200&q=80",
+                        description: "Building Information Modeling (BIM) software for architecture",
+                        order: 6
                     }
                 ],
                 careerProspects: [
                     {
                         title: "Design Studios",
-                        roles: ["Interior Designer", "Design Consultant", "Project Manager"],
-                        description: "Work with established design firms on residential and commercial projects",
+                        roles: ["Interior Designer", "Design Consultant", "Project Manager", "Senior Designer"],
+                        description: "Work with established design firms on residential and commercial projects, leading design teams and managing client relationships.",
                         order: 1
                     },
                     {
                         title: "Corporate Sector",
-                        roles: ["Space Planner", "Workplace Designer", "Facility Manager"],
-                        description: "Design corporate offices and commercial spaces for businesses",
+                        roles: ["Space Planner", "Workplace Designer", "Facility Manager", "Corporate Design Specialist"],
+                        description: "Design corporate offices and commercial spaces for businesses, focusing on productivity and employee well-being.",
                         order: 2
                     },
                     {
-                        title: "Entrepreneurship",
-                        roles: ["Design Studio Owner", "Freelance Designer", "Design Consultant"],
-                        description: "Start your own design practice and build your client base",
+                        title: "Hospitality Industry",
+                        roles: ["Hotel Designer", "Restaurant Designer", "Resort Planner", "Hospitality Consultant"],
+                        description: "Specialize in creating memorable experiences through hospitality interior design.",
                         order: 3
+                    },
+                    {
+                        title: "Retail Design",
+                        roles: ["Retail Designer", "Visual Merchandiser", "Store Planner", "Brand Environment Designer"],
+                        description: "Create engaging retail environments that enhance customer experience and drive sales.",
+                        order: 4
+                    },
+                    {
+                        title: "Entrepreneurship",
+                        roles: ["Design Studio Owner", "Freelance Designer", "Design Consultant", "Online Design Service Provider"],
+                        description: "Start your own design practice, offer online consultations, and build your personal brand in the industry.",
+                        order: 5
+                    },
+                    {
+                        title: "Specialized Fields",
+                        roles: ["Sustainable Design Specialist", "Healthcare Designer", "Educational Facility Designer", "Exhibition Designer"],
+                        description: "Focus on specialized areas like sustainable design, healthcare facilities, or educational environments.",
+                        order: 6
                     }
                 ],
                 ctaTitle: "Ready to Start Your Interior Design Journey?",
@@ -229,11 +297,103 @@ const seedCourseData = async () => {
                         order: 3
                     }
                 ],
-                testimonials: [],
-                faqs: [],
-                curriculum: [],
-                software: [],
-                careerProspects: [],
+                testimonials: [
+                    {
+                        studentName: "Ananya Gupta",
+                        studentImage: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&q=80",
+                        testimonialText: "The fashion design program at Inframe opened doors to the fashion industry I never thought possible. The faculty's industry connections and practical approach helped me secure an internship with a leading fashion house.",
+                        course: "Fashion Design",
+                        batch: "2023",
+                        order: 1,
+                        isActive: true
+                    }
+                ],
+                faqs: [
+                    {
+                        question: "What career opportunities are available in fashion design?",
+                        answer: "Fashion design graduates can work as Fashion Designers, Textile Designers, Fashion Stylists, Fashion Merchandisers, Pattern Makers, or start their own fashion labels. The industry offers opportunities in ready-to-wear, haute couture, and sustainable fashion.",
+                        order: 1,
+                        isActive: true
+                    },
+                    {
+                        question: "Do you provide industry exposure and internships?",
+                        answer: "Yes, we have partnerships with leading fashion houses, textile companies, and design studios. Students get hands-on experience through internships, fashion shows, and industry projects.",
+                        order: 2,
+                        isActive: true
+                    }
+                ],
+                curriculum: [
+                    {
+                        year: "First Year",
+                        semester: "Semester 1 & 2",
+                        subjects: [
+                            "Fashion Illustration",
+                            "Basic Pattern Making",
+                            "Textile Science",
+                            "Fashion History",
+                            "Color Theory",
+                            "Sewing Techniques"
+                        ],
+                        description: "Foundation year covering basic fashion design principles and techniques.",
+                        imageUrl: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600&q=80",
+                        order: 1
+                    },
+                    {
+                        year: "Second Year",
+                        semester: "Semester 3 & 4",
+                        subjects: [
+                            "Advanced Pattern Making",
+                            "Draping Techniques",
+                            "Fashion CAD",
+                            "Garment Construction",
+                            "Fashion Marketing",
+                            "Trend Forecasting"
+                        ],
+                        description: "Intermediate level focusing on technical skills and market understanding.",
+                        imageUrl: "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=600&q=80",
+                        order: 2
+                    }
+                ],
+                software: [
+                    {
+                        name: "Adobe Illustrator",
+                        logoUrl: "https://images.unsplash.com/photo-1558655146-d09347e92766?w=200&q=80",
+                        description: "Vector graphics software for fashion illustration and technical drawings",
+                        order: 1
+                    },
+                    {
+                        name: "CLO 3D",
+                        logoUrl: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=200&q=80",
+                        description: "3D fashion design software for virtual garment simulation",
+                        order: 2
+                    },
+                    {
+                        name: "Adobe Photoshop",
+                        logoUrl: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=200&q=80",
+                        description: "Image editing for fashion photography and presentation boards",
+                        order: 3
+                    }
+                ],
+                careerProspects: [
+                    {
+                        title: "Fashion Houses",
+                        roles: ["Fashion Designer", "Assistant Designer", "Design Coordinator", "Product Developer"],
+                        description: "Work with established fashion brands and luxury houses on seasonal collections.",
+                        order: 1
+                    },
+                    {
+                        title: "Textile Industry",
+                        roles: ["Textile Designer", "Print Designer", "Surface Designer", "Fabric Developer"],
+                        description: "Focus on textile design, print development, and fabric innovation.",
+                        order: 2
+                    },
+                    {
+                        title: "Fashion Entrepreneurship",
+                        roles: ["Fashion Label Owner", "Independent Designer", "Fashion Consultant", "Online Fashion Retailer"],
+                        description: "Start your own fashion label or provide design consultancy services.",
+                        order: 3
+                    }
+                ],
                 ctaTitle: "Ready to Start Your Fashion Design Journey?",
                 ctaDescription: "Take the first step towards a successful career in fashion design. Apply now or contact us for more information.",
                 isActive: true,

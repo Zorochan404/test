@@ -60,6 +60,25 @@ console.log(`   curl -X PUT ${BASE_URL}/COURSE_ID/toggle-status\n`);
 console.log('DELETE Course:');
 console.log(`   curl -X DELETE ${BASE_URL}/COURSE_ID\n`);
 
+console.log('GET Generate Slug:');
+console.log(`   curl ${BASE_URL}/generate-slug/Interior%20Design\n`);
+
+// Image Upload Operations
+console.log('📷 IMAGE UPLOAD OPERATIONS');
+console.log('=========================');
+
+console.log('POST Upload Single Image:');
+console.log(`   curl -X POST http://localhost:5500/api/v1/upload/image \\`);
+console.log('     -F "image=@/path/to/your/image.jpg"\n');
+
+console.log('POST Upload Multiple Images:');
+console.log(`   curl -X POST http://localhost:5500/api/v1/upload/images \\`);
+console.log('     -F "images=@/path/to/image1.jpg" \\');
+console.log('     -F "images=@/path/to/image2.jpg"\n');
+
+console.log('DELETE Image from Cloudinary:');
+console.log(`   curl -X DELETE http://localhost:5500/api/v1/upload/image/PUBLIC_ID\n`);
+
 // Nested Entity Operations
 console.log('🔧 NESTED ENTITY OPERATIONS');
 console.log('===========================');
@@ -163,6 +182,31 @@ const getCourseBySlug = async (slug) => {
 // Usage
 const courses = await getCourses();
 const interiorDesign = await getCourseBySlug('interior-design');
+
+// Image upload utility function
+const uploadImageToCloudinary = async (file) => {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const response = await fetch('/api/v1/upload/image', {
+    method: 'POST',
+    body: formData
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to upload image');
+  }
+
+  const result = await response.json();
+  return result.data.imageUrl;
+};
+
+// Generate slug utility
+const generateSlug = async (title) => {
+  const response = await fetch(\`/api/v1/courses/generate-slug/\${encodeURIComponent(title)}\`);
+  const result = await response.json();
+  return result.data;
+};
 `);
 
 console.log('Course Detail Page:');
