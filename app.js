@@ -19,6 +19,11 @@ import GalleryImageRouter from './routes/galleryImage.routes.js';
 import SportsFacilityRouter from './routes/sportsFacility.routes.js';
 import ContactRouter from './routes/contact.routes.js';
 import DownloadRouter from './routes/download.routes.js';
+import AboutUsHeroGalleryRouter from './routes/aboutUsHeroGallery.routes.js';
+import AboutUsStatisticRouter from './routes/aboutUsStatistic.routes.js';
+import AboutUsCoreValueRouter from './routes/aboutUsCoreValue.routes.js';
+import AboutUsCampusImageRouter from './routes/aboutUsCampusImage.routes.js';
+import AboutUsContentRouter from './routes/aboutUsContent.routes.js';
 
 const app = express();
 
@@ -48,6 +53,11 @@ app.use('/api/v1/galleryimage', GalleryImageRouter);
 app.use('/api/v1/sportsfacility', SportsFacilityRouter);
 app.use('/api/v1/contact', ContactRouter);
 app.use('/api/v1/download', DownloadRouter);
+app.use('/api/v1/about-us/hero-images', AboutUsHeroGalleryRouter);
+app.use('/api/v1/about-us/statistics', AboutUsStatisticRouter);
+app.use('/api/v1/about-us/core-values', AboutUsCoreValueRouter);
+app.use('/api/v1/about-us/campus-images', AboutUsCampusImageRouter);
+app.use('/api/v1/about-us/content', AboutUsContentRouter);
  
 
 app.listen(PORT, async()=> {
