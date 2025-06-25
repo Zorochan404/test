@@ -11,15 +11,13 @@ const aboutUsContentSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Title is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 200,
+
   },
   content: {
     type: String,
     required: [true, 'Content is required'],
     trim: true,
-    minLength: 10,
-    maxLength: 5000,
+
   },
   imageUrl: {
     type: String,

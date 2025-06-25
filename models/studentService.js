@@ -5,15 +5,13 @@ const studentServiceSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Title is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 100,
+
   },
   description: {
     type: String,
     required: [true, 'Description is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 1000,
+
   },
   icon: {
     type: String,

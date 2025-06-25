@@ -5,15 +5,13 @@ const campusEventSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Title is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 200,
+
   },
   description: {
     type: String,
     required: [true, 'Description is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 1000,
+
   },
   category: {
     type: String,

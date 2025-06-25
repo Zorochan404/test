@@ -5,21 +5,18 @@ const aboutUsStatisticSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Number is required'],
     trim: true,
-    maxLength: 20,
+
   },
   title: {
     type: String,
     required: [true, 'Title is required'],
-    trim: true,
-    minLength: 2,
-    maxLength: 100,
+
   },
   description: {
     type: String,
     required: [true, 'Description is required'],
     trim: true,
-    minLength: 5,
-    maxLength: 500,
+
   },
   imageUrl: {
     type: String,

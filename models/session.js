@@ -5,15 +5,12 @@ const sessionSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Name is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 100,
   },
   phoneNumber: {
     type: String,
     required: [true, 'Phone number is required'],
     trim: true,
-    minLength: 10,
-    maxLength: 15,
+
   },
   email: {
     type: String,
@@ -26,15 +23,13 @@ const sessionSchema = new mongoose.Schema({
     type: String,
     required: [true, 'City is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 50,
+
   },
   course: {
     type: String,
     required: [true, 'Course is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 100,
+
   },
  
   

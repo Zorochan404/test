@@ -5,8 +5,7 @@ const studentClubSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Name is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 100,
+
   },
   category: {
     type: String,
@@ -18,8 +17,7 @@ const studentClubSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Description is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 1000,
+
   },
   image: {
     type: String,

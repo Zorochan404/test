@@ -5,15 +5,13 @@ const contactSchema = new mongoose.Schema({
     type: String,
     required: [true, 'First name is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 50,
+
   },
   lastName: {
     type: String,
     required: [true, 'Last name is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 50,
+
   },
   email: {
     type: String,
@@ -26,8 +24,6 @@ const contactSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Message is required'],
     trim: true,
-    minLength: 10,
-    maxLength: 2000,
   },
   status: {
     type: String,

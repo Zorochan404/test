@@ -6,15 +6,13 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Title is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 100,
+
   },
   description: {
     type: String,
     required: [true, 'Description price is required'],
     trim: true,
-    minLength: 2, 
-    maxLength: 100,
+
   },
   image: {
     type: String,
