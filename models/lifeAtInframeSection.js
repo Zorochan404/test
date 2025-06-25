@@ -11,18 +11,17 @@ const lifeAtInframeSectionSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Title is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 200,
+
   },
   description: {
     type: String,
     trim: true,
-    maxLength: 1000,
+
   },
   content: {
     type: String,
     trim: true,
-    maxLength: 5000,
+    
   },
   images: [{
     type: String,

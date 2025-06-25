@@ -481,8 +481,7 @@ const courseProgramSchema = new mongoose.Schema({
   courseOverview: {
     type: String,
     trim: true,
-    minLength: 10,
-    maxLength: 2000,
+
   },
   
   // Admission Process
@@ -531,19 +530,17 @@ const courseProgramSchema = new mongoose.Schema({
   ctaTitle: {
     type: String,
     trim: true,
-    minLength: 2,
-    maxLength: 200,
+
   },
   ctaDescription: {
     type: String,
     trim: true,
-    minLength: 10,
+ 
   },
   ctaButtonText: {
     type: String,
     trim: true,
-    minLength: 2,
-    maxLength: 50,
+
   },
   
   // Settings
@@ -556,19 +553,19 @@ const courseProgramSchema = new mongoose.Schema({
   metaTitle: {
     type: String,
     trim: true,
-    maxLength: 60,
+ 
     default: '',
   },
   metaDescription: {
     type: String,
     trim: true,
-    maxLength: 160,
+
     default: '',
   },
   metaKeywords: {
     type: String,
     trim: true,
-    maxLength: 255,
+
     default: '',
   },
 }, { timestamps: true });
@@ -579,14 +576,13 @@ const courseFeatureSchema = new mongoose.Schema({
     required: [true, 'Feature title is required'],
     trim: true,
     minLength: 2,
-    maxLength: 200,
+
   },
   description: {
     type: String,
     required: [true, 'Feature description is required'],
     trim: true,
-    minLength: 10,
-    maxLength: 1000,
+
   },
   imageUrl: {
     type: String,
@@ -605,19 +601,18 @@ const courseCareerProspectSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Career prospect title is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 200,
+
   },
   roles: [{
     type: String,
     required: true,
     trim: true,
-    maxLength: 100,
+
   }],
   description: {
     type: String,
     trim: true,
-    maxLength: 1000,
+
     default: '',
   },
   order: {
@@ -635,22 +630,19 @@ const courseSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     lowercase: true,
-    minLength: 2,
-    maxLength: 100,
+
   },
   title: {
     type: String,
     required: [true, 'Course title is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 200,
+
   },
   description: {
     type: String,
     required: [true, 'Course description is required'],
     trim: true,
-    minLength: 10,
-    maxLength: 2000,
+
   },
   heroImage: {
     type: String,
@@ -668,14 +660,13 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: [true, 'CTA title is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 200,
+
   },
   ctaDescription: {
     type: String,
     required: [true, 'CTA description is required'],
     trim: true,
-    minLength: 10,
+ 
   },
   brochurePdfUrl: {
     type: String,
@@ -689,19 +680,17 @@ const courseSchema = new mongoose.Schema({
   metaTitle: {
     type: String,
     trim: true,
-    maxLength: 60,
+
     default: '',
   },
   metaDescription: {
     type: String,
     trim: true,
-    maxLength: 160,
     default: '',
   },
   metaKeywords: {
     type: String,
     trim: true,
-    maxLength: 255,
     default: '',
   },
 }, { timestamps: true });

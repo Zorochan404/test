@@ -30,8 +30,15 @@ import AdmissionRouter from './routes/admission.routes.js';
 import EnquiryRouter from './routes/enquiry.routes.js';
 import AdmissionAuthRouter from './routes/admissionAuth.routes.js';
 import PaymentInformationRouter from './routes/paymentInformation.routes.js';
+import { errorHandler, createErrorResponse } from './utils/errorHandler.js';
 
 const app = express();
+
+// Set JSON content type for all responses
+app.use((req, res, next) => {
+    res.setHeader('Content-Type', 'application/json');
+    next();
+});
 
 app.use(cors({
     origin: ['http://localhost:3000', 'https://admin.inframeschool.com', 'https://test3-iota-ten.vercel.app'],
@@ -72,8 +79,22 @@ app.use('/api/v1/admission-auth', AdmissionAuthRouter);
 app.use('/api/v1/payment-information', PaymentInformationRouter);
 
 app.get("/", (req, res) => {
-    res.send("Hello World!");
+    res.json({
+        success: true,
+        message: "Inframe School API is running",
+        version: "1.0.0",
+        timestamp: new Date().toISOString()
+    });
 });
+
+// 404 handler for undefined routes
+app.use('*', (req, res) => {
+    const errorResponse = createErrorResponse(404, 'GENERAL', 'The requested route was not found');
+    res.status(404).json(errorResponse);
+});
+
+// Global error handler middleware (must be last)
+app.use(errorHandler);
 
 app.listen(PORT, async()=> {
     console.log(`server running on ${PORT}⚙️`)

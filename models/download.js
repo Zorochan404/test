@@ -5,22 +5,19 @@ const downloadSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Title is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 200,
+
   },
   description: {
     type: String,
     required: [true, 'Description is required'],
     trim: true,
-    minLength: 10,
-    maxLength: 1000,
+
   },
   category: {
     type: String,
     required: [true, 'Category is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 50,
+
   },
   fileUrl: {
     type: String,
@@ -31,8 +28,7 @@ const downloadSchema = new mongoose.Schema({
     type: String,
     required: [true, 'File name is required'],
     trim: true,
-    minLength: 1,
-    maxLength: 255,
+
   },
   fileSize: {
     type: String,

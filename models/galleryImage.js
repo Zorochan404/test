@@ -5,8 +5,7 @@ const galleryImageSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Title is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 100,
+
   },
   imageUrl: {
     type: String,
@@ -17,8 +16,7 @@ const galleryImageSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Category is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 50,
+
   },
   order: {
     type: Number,

@@ -10,8 +10,6 @@ const programsSchema = new mongoose.Schema({
         type: String,
         required: [true, 'by is required'],
         trim: true,
-        minLength: 2, 
-        maxLength: 100,
     },
   
 }, { timestamps: true });

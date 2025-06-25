@@ -11,8 +11,7 @@ const logoSchema = new mongoose.Schema({
     type: String,
     required: [true, 'name is required'],
     trim: true,
-    minLength: 2, 
-    maxLength: 100,
+
   },
   
 }, { timestamps: true });

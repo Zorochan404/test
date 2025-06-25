@@ -5,13 +5,11 @@ const sportsFacilitySchema = new mongoose.Schema({
     type: String,
     required: [true, 'Name is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 100,
   },
   description: {
     type: String,
     trim: true,
-    maxLength: 1000,
+
   },
   image: {
     type: String,
@@ -21,7 +19,6 @@ const sportsFacilitySchema = new mongoose.Schema({
   category: {
     type: String,
     trim: true,
-    maxLength: 50,
   },
   
 }, { timestamps: true });

@@ -10,8 +10,8 @@ const aboutUsCampusImageSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Alt text is required'],
     trim: true,
-    minLength: 2,
-    maxLength: 200,
+
+
   },
   order: {
     type: Number,

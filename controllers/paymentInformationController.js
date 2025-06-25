@@ -2,192 +2,131 @@ import PaymentInformation from "../models/paymentInformation.js";
 import User from "../models/user.js";
 import Course from "../models/course.js";
 import { validateObjectId } from "../utils/validators.js";
+import { ErrorMessages, createErrorResponse, createSuccessResponse, asyncHandler } from "../utils/errorHandler.js";
 
 // Create new payment information
-export const createPaymentInformation = async (req, res) => {
-  try {
-    const {
-      userId,
-      courseId,
-      programId,
-      totalFee,
-      registrationFee = 0,
-      processingFee = 0,
-      emiPlan,
-      paymentMethod = 'online'
-    } = req.body;
+export const createPaymentInformation = asyncHandler(async (req, res) => {
+  const {
+    userId,
+    courseId,
+    programId,
+    totalFee,
+    registrationFee = 0,
+    processingFee = 0,
+    emiPlan,
+    paymentMethod = 'online'
+  } = req.body;
 
-    // Validate required fields
-    if (!userId || !courseId || !programId || !totalFee) {
-      return res.status(400).json({
-        success: false,
-        message: "Missing required fields: userId, courseId, programId, totalFee"
-      });
-    }
-
-    // Validate ObjectIds
-    if (!validateObjectId(userId) || !validateObjectId(courseId)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid userId or courseId format"
-      });
-    }
-
-    // Check if user exists
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found"
-      });
-    }
-
-    // Check if course exists
-    const course = await Course.findById(courseId);
-    if (!course) {
-      return res.status(404).json({
-        success: false,
-        message: "Course not found"
-      });
-    }
-
-    // Check if payment information already exists for this user-course-program combination
-    const existingPayment = await PaymentInformation.findByUserAndCourse(userId, courseId, programId);
-    if (existingPayment) {
-      return res.status(409).json({
-        success: false,
-        message: "Payment information already exists for this user and course program"
-      });
-    }
-
-    // Calculate EMI plan if provided
-    let emiPayments = [];
-    if (emiPlan && emiPlan.totalEmis > 0) {
-      const emiAmount = Math.ceil((totalFee - registrationFee) / emiPlan.totalEmis);
-      const startDate = new Date();
-      
-      for (let i = 1; i <= emiPlan.totalEmis; i++) {
-        const dueDate = new Date(startDate);
-        dueDate.setMonth(dueDate.getMonth() + i);
-        
-        emiPayments.push({
-          emiNumber: i,
-          dueDate: dueDate,
-          amount: i === emiPlan.totalEmis ? 
-            (totalFee - registrationFee) - (emiAmount * (emiPlan.totalEmis - 1)) : 
-            emiAmount,
-          status: 'pending'
-        });
-      }
-    }
-
-    // Create payment information
-    const paymentInfo = new PaymentInformation({
-      userId,
-      courseId,
-      programId,
-      totalFee,
-      registrationFee,
-      processingFee,
-      totalAmountDue: totalFee,
-      emiPlan: {
-        ...emiPlan,
-        emiPayments,
-        emisRemaining: emiPlan?.totalEmis || 0
-      }
-    });
-
-    await paymentInfo.save();
-
-    // Add payment information reference to user
-    user.paymentInformation.push(paymentInfo._id);
-    await user.save();
-
-    res.status(201).json({
-      success: true,
-      message: "Payment information created successfully",
-      data: paymentInfo
-    });
-
-  } catch (error) {
-    console.error("Error creating payment information:", error);
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      error: error.message
-    });
+  // Validate required fields
+  if (!userId || !courseId || !programId || !totalFee) {
+    return res.status(400).json(createErrorResponse(400, 'PAYMENT', 'Missing required fields: userId, courseId, programId, totalFee'));
   }
-};
+
+  // Validate ObjectIds
+  if (!validateObjectId(userId) || !validateObjectId(courseId)) {
+    return res.status(400).json(createErrorResponse(400, 'VALIDATION', ErrorMessages.VALIDATION.INVALID_ID));
+  }
+
+  // Check if user exists
+  const user = await User.findById(userId);
+  if (!user) {
+    return res.status(404).json(createErrorResponse(404, 'PAYMENT', ErrorMessages.ADMISSION.INVALID_USER));
+  }
+
+  // Check if course exists
+  const course = await Course.findById(courseId);
+  if (!course) {
+    return res.status(404).json(createErrorResponse(404, 'PAYMENT', ErrorMessages.ADMISSION.INVALID_COURSE));
+  }
+
+  // Check if payment information already exists for this user-course-program combination
+  const existingPayment = await PaymentInformation.findByUserAndCourse(userId, courseId, programId);
+  if (existingPayment) {
+    return res.status(409).json(createErrorResponse(409, 'PAYMENT', 'Payment information already exists for this user and course program'));
+  }
+
+  // Calculate EMI plan if provided
+  let emiPayments = [];
+  if (emiPlan && emiPlan.totalEmis > 0) {
+    const emiAmount = Math.ceil((totalFee - registrationFee) / emiPlan.totalEmis);
+    const startDate = new Date();
+    
+    for (let i = 1; i <= emiPlan.totalEmis; i++) {
+      const dueDate = new Date(startDate);
+      dueDate.setMonth(dueDate.getMonth() + i);
+      
+      emiPayments.push({
+        emiNumber: i,
+        dueDate: dueDate,
+        amount: i === emiPlan.totalEmis ? 
+          (totalFee - registrationFee) - (emiAmount * (emiPlan.totalEmis - 1)) : 
+          emiAmount,
+        status: 'pending'
+      });
+    }
+  }
+
+  // Create payment information
+  const paymentInfo = new PaymentInformation({
+    userId,
+    courseId,
+    programId,
+    totalFee,
+    registrationFee,
+    processingFee,
+    totalAmountDue: totalFee,
+    emiPlan: {
+      ...emiPlan,
+      emiPayments,
+      emisRemaining: emiPlan?.totalEmis || 0
+    }
+  });
+
+  await paymentInfo.save();
+
+  // Add payment information reference to user
+  user.paymentInformation.push(paymentInfo._id);
+  await user.save();
+
+  res.status(201).json(createSuccessResponse('Payment information created successfully', paymentInfo));
+});
 
 // Get payment information by ID
-export const getPaymentInformationById = async (req, res) => {
-  try {
-    const { id } = req.params;
+export const getPaymentInformationById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
 
-    if (!validateObjectId(id)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid payment information ID format"
-      });
-    }
-
-    const paymentInfo = await PaymentInformation.findById(id)
-      .populate('userId', 'name email phone applicationId')
-      .populate('courseId', 'title description');
-
-    if (!paymentInfo) {
-      return res.status(404).json({
-        success: false,
-        message: "Payment information not found"
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      data: paymentInfo
-    });
-
-  } catch (error) {
-    console.error("Error fetching payment information:", error);
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      error: error.message
-    });
+  if (!validateObjectId(id)) {
+    return res.status(400).json(createErrorResponse(400, 'VALIDATION', ErrorMessages.VALIDATION.INVALID_ID));
   }
-};
+
+  const paymentInfo = await PaymentInformation.findById(id)
+    .populate('userId', 'name email phone applicationId')
+    .populate('courseId', 'title description');
+
+  if (!paymentInfo) {
+    return res.status(404).json(createErrorResponse(404, 'PAYMENT', ErrorMessages.PAYMENT.PAYMENT_NOT_FOUND));
+  }
+
+  res.status(200).json(createSuccessResponse('Payment information retrieved successfully', paymentInfo));
+});
 
 // Get payment information by user ID
-export const getPaymentInformationByUser = async (req, res) => {
-  try {
-    const { userId } = req.params;
+export const getPaymentInformationByUser = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
 
-    if (!validateObjectId(userId)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid user ID format"
-      });
-    }
-
-    const paymentInfo = await PaymentInformation.find({ userId, isActive: true })
-      .populate('courseId', 'title description')
-      .sort({ createdAt: -1 });
-
-    res.status(200).json({
-      success: true,
-      count: paymentInfo.length,
-      data: paymentInfo
-    });
-
-  } catch (error) {
-    console.error("Error fetching user payment information:", error);
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      error: error.message
-    });
+  if (!validateObjectId(userId)) {
+    return res.status(400).json(createErrorResponse(400, 'VALIDATION', ErrorMessages.VALIDATION.INVALID_ID));
   }
-};
+
+  const paymentInfo = await PaymentInformation.find({ userId, isActive: true })
+    .populate('courseId', 'title description')
+    .sort({ createdAt: -1 });
+
+  res.status(200).json(createSuccessResponse('Payment information retrieved successfully', {
+    count: paymentInfo.length,
+    data: paymentInfo
+  }));
+});
 
 // Record a payment transaction
 export const recordPayment = async (req, res) => {
