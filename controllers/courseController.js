@@ -553,27 +553,319 @@ export const deleteCourseCareerProspect = async (req, res, next) => {
     }
 };
 
-// Utility function to generate slug
+// Program-specific Operations
+export const addProgramAdmissionStep = async (req, res, next) => {
+    try {
+        const course = await Course.findById(req.params.courseId);
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        const program = course.programs.id(req.params.programId);
+        if (!program) {
+            return res.status(404).json({ success: false, message: "Program not found" });
+        }
+
+        program.admissionSteps.push(req.body);
+        await course.save();
+
+        const addedStep = program.admissionSteps[program.admissionSteps.length - 1];
+        res.status(201).json({ success: true, data: addedStep });
+    } catch (e) {
+        next(e);
+    }
+};
+
+export const updateProgramAdmissionStep = async (req, res, next) => {
+    try {
+        const course = await Course.findById(req.params.courseId);
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        const program = course.programs.id(req.params.programId);
+        if (!program) {
+            return res.status(404).json({ success: false, message: "Program not found" });
+        }
+
+        const step = program.admissionSteps.id(req.params.stepId);
+        if (!step) {
+            return res.status(404).json({ success: false, message: "Admission step not found" });
+        }
+
+        Object.assign(step, req.body);
+        await course.save();
+
+        res.status(200).json({ success: true, data: step });
+    } catch (e) {
+        next(e);
+    }
+};
+
+export const deleteProgramAdmissionStep = async (req, res, next) => {
+    try {
+        const course = await Course.findById(req.params.courseId);
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        const program = course.programs.id(req.params.programId);
+        if (!program) {
+            return res.status(404).json({ success: false, message: "Program not found" });
+        }
+
+        program.admissionSteps.pull(req.params.stepId);
+        await course.save();
+
+        res.status(200).json({ success: true, message: "Admission step deleted successfully" });
+    } catch (e) {
+        next(e);
+    }
+};
+
+// Program Fee Structure Operations
+export const updateProgramFeeStructure = async (req, res, next) => {
+    try {
+        const course = await Course.findById(req.params.courseId);
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        const program = course.programs.id(req.params.programId);
+        if (!program) {
+            return res.status(404).json({ success: false, message: "Program not found" });
+        }
+
+        program.feeStructure = req.body;
+        await course.save();
+
+        res.status(200).json({ success: true, data: program.feeStructure });
+    } catch (e) {
+        next(e);
+    }
+};
+
+export const addProgramEMIOption = async (req, res, next) => {
+    try {
+        const course = await Course.findById(req.params.courseId);
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        const program = course.programs.id(req.params.programId);
+        if (!program) {
+            return res.status(404).json({ success: false, message: "Program not found" });
+        }
+
+        if (!program.feeStructure) {
+            program.feeStructure = {
+                totalFee: 0,
+                emiOptions: [],
+                couponCodes: []
+            };
+        }
+
+        program.feeStructure.emiOptions.push(req.body);
+        await course.save();
+
+        const addedEMI = program.feeStructure.emiOptions[program.feeStructure.emiOptions.length - 1];
+        res.status(201).json({ success: true, data: addedEMI });
+    } catch (e) {
+        next(e);
+    }
+};
+
+export const updateProgramEMIOption = async (req, res, next) => {
+    try {
+        const course = await Course.findById(req.params.courseId);
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        const program = course.programs.id(req.params.programId);
+        if (!program || !program.feeStructure) {
+            return res.status(404).json({ success: false, message: "Program or fee structure not found" });
+        }
+
+        const emiOption = program.feeStructure.emiOptions.id(req.params.emiId);
+        if (!emiOption) {
+            return res.status(404).json({ success: false, message: "EMI option not found" });
+        }
+
+        Object.assign(emiOption, req.body);
+        await course.save();
+
+        res.status(200).json({ success: true, data: emiOption });
+    } catch (e) {
+        next(e);
+    }
+};
+
+export const deleteProgramEMIOption = async (req, res, next) => {
+    try {
+        const course = await Course.findById(req.params.courseId);
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        const program = course.programs.id(req.params.programId);
+        if (!program || !program.feeStructure) {
+            return res.status(404).json({ success: false, message: "Program or fee structure not found" });
+        }
+
+        program.feeStructure.emiOptions.pull(req.params.emiId);
+        await course.save();
+
+        res.status(200).json({ success: true, message: "EMI option deleted successfully" });
+    } catch (e) {
+        next(e);
+    }
+};
+
+export const addProgramCouponCode = async (req, res, next) => {
+    try {
+        const course = await Course.findById(req.params.courseId);
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        const program = course.programs.id(req.params.programId);
+        if (!program) {
+            return res.status(404).json({ success: false, message: "Program not found" });
+        }
+
+        if (!program.feeStructure) {
+            program.feeStructure = {
+                totalFee: 0,
+                emiOptions: [],
+                couponCodes: []
+            };
+        }
+
+        program.feeStructure.couponCodes.push(req.body);
+        await course.save();
+
+        const addedCoupon = program.feeStructure.couponCodes[program.feeStructure.couponCodes.length - 1];
+        res.status(201).json({ success: true, data: addedCoupon });
+    } catch (e) {
+        next(e);
+    }
+};
+
+export const updateProgramCouponCode = async (req, res, next) => {
+    try {
+        const course = await Course.findById(req.params.courseId);
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        const program = course.programs.id(req.params.programId);
+        if (!program || !program.feeStructure) {
+            return res.status(404).json({ success: false, message: "Program or fee structure not found" });
+        }
+
+        const couponCode = program.feeStructure.couponCodes.id(req.params.couponId);
+        if (!couponCode) {
+            return res.status(404).json({ success: false, message: "Coupon code not found" });
+        }
+
+        Object.assign(couponCode, req.body);
+        await course.save();
+
+        res.status(200).json({ success: true, data: couponCode });
+    } catch (e) {
+        next(e);
+    }
+};
+
+export const deleteProgramCouponCode = async (req, res, next) => {
+    try {
+        const course = await Course.findById(req.params.courseId);
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        const program = course.programs.id(req.params.programId);
+        if (!program || !program.feeStructure) {
+            return res.status(404).json({ success: false, message: "Program or fee structure not found" });
+        }
+
+        program.feeStructure.couponCodes.pull(req.params.couponId);
+        await course.save();
+
+        res.status(200).json({ success: true, message: "Coupon code deleted successfully" });
+    } catch (e) {
+        next(e);
+    }
+};
+
+// Utility Functions
 export const generateSlugFromTitle = async (req, res, next) => {
     try {
         const { title } = req.params;
+        if (!title) {
+            return res.status(400).json({ success: false, message: "Title is required" });
+        }
+
         const slug = title
             .toLowerCase()
             .replace(/[^a-z0-9]+/g, '-')
             .replace(/(^-|-$)/g, '');
 
-        // Check if slug already exists
-        const existingCourse = await Course.findOne({ slug });
-        const isUnique = !existingCourse;
+        res.status(200).json({ success: true, slug });
+    } catch (e) {
+        next(e);
+    }
+};
 
-        res.status(200).json({
-            success: true,
-            data: {
-                slug,
-                isUnique,
-                suggestedSlug: isUnique ? slug : `${slug}-${Date.now()}`
+// Get all programs from all courses
+export const getAllPrograms = async (req, res, next) => {
+    try {
+        const courses = await Course.find({ isActive: true }).populate('programs');
+        const allPrograms = [];
+
+        courses.forEach(course => {
+            if (course.programs && course.programs.length > 0) {
+                course.programs.forEach(program => {
+                    if (program.isActive) {
+                        allPrograms.push({
+                            ...program.toObject(),
+                            parentCourseSlug: course.slug,
+                            parentCourseTitle: course.title
+                        });
+                    }
+                });
             }
         });
+
+        res.status(200).json({ success: true, data: allPrograms });
+    } catch (e) {
+        next(e);
+    }
+};
+
+// Get program by slug
+export const getProgramBySlug = async (req, res, next) => {
+    try {
+        const { courseSlug, programSlug } = req.params;
+        
+        const course = await Course.findOne({ slug: courseSlug, isActive: true });
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        const program = course.programs.find(p => p.slug === programSlug && p.isActive);
+        if (!program) {
+            return res.status(404).json({ success: false, message: "Program not found" });
+        }
+
+        const programData = {
+            ...program.toObject(),
+            parentCourseSlug: course.slug,
+            parentCourseTitle: course.title
+        };
+
+        res.status(200).json({ success: true, data: programData });
     } catch (e) {
         next(e);
     }

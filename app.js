@@ -26,6 +26,10 @@ import AboutUsCampusImageRouter from './routes/aboutUsCampusImage.routes.js';
 import AboutUsContentRouter from './routes/aboutUsContent.routes.js';
 import CourseRouter from './routes/course.routes.js';
 import UploadRouter from './routes/upload.routes.js';
+import AdmissionRouter from './routes/admission.routes.js';
+import EnquiryRouter from './routes/enquiry.routes.js';
+import AdmissionAuthRouter from './routes/admissionAuth.routes.js';
+import PaymentInformationRouter from './routes/paymentInformation.routes.js';
 
 const app = express();
 
@@ -62,7 +66,14 @@ app.use('/api/v1/about-us/campus-images', AboutUsCampusImageRouter);
 app.use('/api/v1/about-us/content', AboutUsContentRouter);
 app.use('/api/v1/courses', CourseRouter);
 app.use('/api/v1/upload', UploadRouter);
- 
+app.use('/api/v1/admission', AdmissionRouter);
+app.use('/api/v1/enquiries', EnquiryRouter);
+app.use('/api/v1/admission-auth', AdmissionAuthRouter);
+app.use('/api/v1/payment-information', PaymentInformationRouter);
+
+app.get("/", (req, res) => {
+    res.send("Hello World!");
+});
 
 app.listen(PORT, async()=> {
     console.log(`server running on ${PORT}⚙️`)

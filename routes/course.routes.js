@@ -36,8 +36,21 @@ import {
     addCourseCareerProspect,
     updateCourseCareerProspect,
     deleteCourseCareerProspect,
+    // Program-specific operations
+    addProgramAdmissionStep,
+    updateProgramAdmissionStep,
+    deleteProgramAdmissionStep,
+    updateProgramFeeStructure,
+    addProgramEMIOption,
+    updateProgramEMIOption,
+    deleteProgramEMIOption,
+    addProgramCouponCode,
+    updateProgramCouponCode,
+    deleteProgramCouponCode,
     // Utility functions
-    generateSlugFromTitle
+    generateSlugFromTitle,
+    getAllPrograms,
+    getProgramBySlug
 } from '../controllers/courseController.js';
 
 const CourseRouter = Router();
@@ -56,6 +69,20 @@ CourseRouter.delete('/:id', deleteCourseById);
 CourseRouter.post('/:courseId/programs', addCourseProgram);
 CourseRouter.put('/:courseId/programs/:programId', updateCourseProgram);
 CourseRouter.delete('/:courseId/programs/:programId', deleteCourseProgram);
+
+// Program-specific Operations
+CourseRouter.post('/:courseId/programs/:programId/admission-steps', addProgramAdmissionStep);
+CourseRouter.put('/:courseId/programs/:programId/admission-steps/:stepId', updateProgramAdmissionStep);
+CourseRouter.delete('/:courseId/programs/:programId/admission-steps/:stepId', deleteProgramAdmissionStep);
+
+// Program Fee Structure Operations
+CourseRouter.put('/:courseId/programs/:programId/fee-structure', updateProgramFeeStructure);
+CourseRouter.post('/:courseId/programs/:programId/emi-options', addProgramEMIOption);
+CourseRouter.put('/:courseId/programs/:programId/emi-options/:emiId', updateProgramEMIOption);
+CourseRouter.delete('/:courseId/programs/:programId/emi-options/:emiId', deleteProgramEMIOption);
+CourseRouter.post('/:courseId/programs/:programId/coupon-codes', addProgramCouponCode);
+CourseRouter.put('/:courseId/programs/:programId/coupon-codes/:couponId', updateProgramCouponCode);
+CourseRouter.delete('/:courseId/programs/:programId/coupon-codes/:couponId', deleteProgramCouponCode);
 
 // Course Feature Operations
 CourseRouter.post('/:courseId/features', addCourseFeature);
@@ -89,5 +116,7 @@ CourseRouter.delete('/:courseId/career-prospects/:careerProspectId', deleteCours
 
 // Additional utility endpoints
 CourseRouter.get('/generate-slug/:title', generateSlugFromTitle);
+CourseRouter.get('/programs/all', getAllPrograms);
+CourseRouter.get('/programs/:courseSlug/:programSlug', getProgramBySlug);
 
 export default CourseRouter;
