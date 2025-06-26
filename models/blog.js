@@ -95,16 +95,7 @@ const BlogSchema = new mongoose.Schema({
     trim: true,
     minLength: 5,
   },
-   metatitle: {
-    type: String,
-    required: [true, 'meta title is required'],
-    minLength: 2,
-  },
-  metadescription: {
-    type: String,
-    required: [true, 'meta description is required'],
-    minLength: 2,
-  },
+ 
   excerpt: {
     type: String,
     required: [true, 'Excerpt is required'],
