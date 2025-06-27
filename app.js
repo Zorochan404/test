@@ -25,6 +25,7 @@ import AboutUsCoreValueRouter from './routes/aboutUsCoreValue.routes.js';
 import AboutUsCampusImageRouter from './routes/aboutUsCampusImage.routes.js';
 import AboutUsContentRouter from './routes/aboutUsContent.routes.js';
 import CourseRouter from './routes/course.routes.js';
+import FreeCoursesRouter from './routes/freecourses.routes.js';
 import UploadRouter from './routes/upload.routes.js';
 import AdmissionRouter from './routes/admission.routes.js';
 import EnquiryRouter from './routes/enquiry.routes.js';
@@ -41,7 +42,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://admin.inframeschool.com', 'https://test3-iota-ten.vercel.app'],
+    origin: ['http://localhost:3000', 'https://admin.inframeschool.com', 'https://test3-iota-ten.vercel.app, https://inframe-wine.vercel.app/'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -72,6 +73,7 @@ app.use('/api/v1/about-us/core-values', AboutUsCoreValueRouter);
 app.use('/api/v1/about-us/campus-images', AboutUsCampusImageRouter);
 app.use('/api/v1/about-us/content', AboutUsContentRouter);
 app.use('/api/v1/courses', CourseRouter);
+app.use('/api/v1/free-courses', FreeCoursesRouter);
 app.use('/api/v1/upload', UploadRouter);
 app.use('/api/v1/admission', AdmissionRouter);
 app.use('/api/v1/enquiries', EnquiryRouter);
