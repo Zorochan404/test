@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://admin.inframeschool.com', 'https://test3-iota-ten.vercel.app, https://inframe-wine.vercel.app'],
+    origin: ['http://localhost:3000', 'https://admin.inframeschool.com', 'https://test3-iota-ten.vercel.app', 'https://inframe-wine.vercel.app'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
