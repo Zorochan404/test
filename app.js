@@ -31,6 +31,7 @@ import AdmissionRouter from './routes/admission.routes.js';
 import EnquiryRouter from './routes/enquiry.routes.js';
 import AdmissionAuthRouter from './routes/admissionAuth.routes.js';
 import PaymentInformationRouter from './routes/paymentInformation.routes.js';
+import CareerPostRouter from './routes/careerPost.routes.js';
 import { errorHandler, createErrorResponse } from './utils/errorHandler.js';
 
 const app = express();
@@ -79,6 +80,7 @@ app.use('/api/v1/admission', AdmissionRouter);
 app.use('/api/v1/enquiries', EnquiryRouter);
 app.use('/api/v1/admission-auth', AdmissionAuthRouter);
 app.use('/api/v1/payment-information', PaymentInformationRouter);
+app.use('/api/v1/career-posts', CareerPostRouter);
 
 app.get("/", (req, res) => {
     res.json({
