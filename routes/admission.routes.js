@@ -10,7 +10,9 @@ import {
     getAdmissionByUserId,
     getUserWithAdmission,
     updateAdmissionByUserId,
-    deleteAdmissionByUserId
+    deleteAdmissionByUserId,
+    refreshAdmissionData,
+    debugAdmissionState
 } from '../controllers/admissionController.js';
 
 const AdmissionRouter = Router();
@@ -21,6 +23,8 @@ AdmissionRouter.get('/user/:userId', getAdmissionByUserId);
 AdmissionRouter.get('/user/:userId/complete', getUserWithAdmission);
 AdmissionRouter.put('/user/:userId', updateAdmissionByUserId);
 AdmissionRouter.delete('/user/:userId', deleteAdmissionByUserId);
+AdmissionRouter.get('/user/:userId/refresh', refreshAdmissionData);
+AdmissionRouter.get('/debug/:admissionId', debugAdmissionState);
 
 // General admission endpoints
 AdmissionRouter.post('/add', createAdmission);

@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 // Signup for admission
 export const signup = asyncHandler(async (req, res) => {
     const { firstName, lastName, email, phone, password, confirmPassword } = req.body;
+    console.log(req.body);
 
     // Validate input
     if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
@@ -46,6 +47,8 @@ export const signup = asyncHandler(async (req, res) => {
 
     // Create new user
     const newUser = new User({
+        firstName,
+        lastName,
         email,
         phone,
         password
@@ -117,8 +120,23 @@ export const login = asyncHandler(async (req, res) => {
     // Find user by email and populate admission and payment data
     const user = await User.findOne({ email })
         .select('+password')
-        .populate('admissionFormId')
+        .populate({
+            path: 'admissionFormId',
+            options: { lean: false } // Force fresh data
+        })
         .populate('paymentInformation');
+        
+    console.log('🔍 User found during login:', {
+        userId: user?._id,
+        email: user?.email,
+        admissionFormId: user?.admissionFormId?._id,
+        admissionData: user?.admissionFormId ? {
+            firstName: user.admissionFormId.firstName,
+            lastName: user.admissionFormId.lastName,
+            status: user.admissionFormId.status,
+            updatedAt: user.admissionFormId.updatedAt
+        } : null
+    });
         
     if (!user) {
         return sendErrorResponse(res, 401, 'AUTH', ErrorMessages.AUTH.INVALID_CREDENTIALS);
@@ -165,7 +183,7 @@ export const login = asyncHandler(async (req, res) => {
 
 // Get current user profile
 export const getProfile = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user.id)
+    const user = await User.findById(req.params.id)
         .populate('admissionFormId')
         .populate('paymentInformation');
         

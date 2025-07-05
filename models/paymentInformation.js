@@ -4,16 +4,14 @@ import mongoose from "mongoose";
 const emiPaymentSchema = new mongoose.Schema({
   emiNumber: {
     type: Number,
-    required: true,
     min: 1,
   },
   dueDate: {
     type: Date,
-    required: true,
+    default: Date.now + 30 * 24 * 60 * 60 * 1000,
   },
   amount: {
     type: Number,
-    required: true,
     min: 0,
   },
   paidAmount: {
@@ -21,9 +19,30 @@ const emiPaymentSchema = new mongoose.Schema({
     default: 0,
     min: 0,
   },
-  paidDate: {
-    type: Date,
+  monthlyEmi: {
+    type: Number,
+    min: 0,
   },
+
+  paidInformation: [{
+    paidDate: {
+      type: Date,
+    },
+    paidAmount: {
+      type: Number,
+      min: 0,
+    },
+    paymentMethod: {
+      type: String,
+    },
+    transactionId: {
+      type: String,
+      trim: true,
+    },
+    remarks: {
+      type: String,
+    },
+  }],
   status: {
     type: String,
     enum: ['pending', 'paid', 'overdue', 'partial'],
@@ -34,19 +53,7 @@ const emiPaymentSchema = new mongoose.Schema({
     default: 0,
     min: 0,
   },
-  paymentMethod: {
-    type: String,
-    enum: ['online', 'cash', 'cheque', 'bank_transfer', 'upi', 'card'],
-  },
-  transactionId: {
-    type: String,
-    trim: true,
-  },
-  remarks: {
-    type: String,
-    trim: true,
-    default: '',
-  },
+
 }, { timestamps: true });
 
 // Payment Transaction Schema
@@ -64,7 +71,7 @@ const paymentTransactionSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    enum: ['online', 'cash', 'cheque', 'bank_transfer', 'upi', 'card'],
+    enum: ['online', 'cash', 'cheque', 'bank_transfer', 'upi', 'card', 'emi'],
     required: true,
   },
   paymentGateway: {
@@ -97,38 +104,6 @@ const paymentTransactionSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-// Coupon Usage Schema
-const couponUsageSchema = new mongoose.Schema({
-  couponCode: {
-    type: String,
-    required: true,
-    trim: true,
-    uppercase: true,
-  },
-  discountAmount: {
-    type: Number,
-    required: true,
-    min: 0,
-  },
-  discountType: {
-    type: String,
-    enum: ['percentage', 'fixed'],
-    required: true,
-  },
-  originalValue: {
-    type: Number,
-    required: true,
-    min: 0,
-  },
-  appliedAt: {
-    type: Date,
-    default: Date.now,
-  },
-  transactionId: {
-    type: String,
-    trim: true,
-  },
-}, { timestamps: true });
 
 // Main Payment Information Schema
 const paymentInformationSchema = new mongoose.Schema({
@@ -139,12 +114,20 @@ const paymentInformationSchema = new mongoose.Schema({
     required: true,
   },
 
+  // Admission Reference
+  admissionId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Admission',
+    required: true,
+  },
+
   // Course and Program References
   courseId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Course',
     required: true,
   },
+
   programId: {
     type: String, // Program ID within the course
     required: true,
@@ -156,35 +139,55 @@ const paymentInformationSchema = new mongoose.Schema({
     required: true,
     min: 0,
   },
-  registrationFee: {
-    type: Number,
-    default: 0,
-    min: 0,
-  },
+
   processingFee: {
     type: Number,
     default: 0,
     min: 0,
   },
-
-  // Payment Status
-  totalAmountPaid: {
+  registrationFee: {
     type: Number,
     default: 0,
     min: 0,
   },
-  totalAmountDue: {
+  courseFee: {
     type: Number,
-    required: true,
+    default: 0,
     min: 0,
   },
+  
   paymentStatus: {
     type: String,
     enum: ['pending', 'partial', 'completed', 'overdue', 'defaulted'],
     default: 'pending',
   },
+  
+  feePaid: {
+    type: Number,
+    default: 0,
+    min: 0,
+  },
 
-  // EMI Information
+  // Payment Amount Tracking
+  totalAmountPaid: {
+    type: Number,
+    default: 0,
+    min: 0,
+  },
+
+  totalAmountDue: {
+    type: Number,
+    default: 0,
+    min: 0,
+  },
+
+  totalDiscount: {
+    type: Number,
+    default: 0,
+    min: 0,
+  },
+
+  // EMI Plan Information
   emiPlan: {
     totalEmis: {
       type: Number,
@@ -220,24 +223,63 @@ const paymentInformationSchema = new mongoose.Schema({
     },
   },
 
-  // Payment History
-  paymentTransactions: [paymentTransactionSchema],
-
-  // Coupon Information
-  appliedCoupons: [couponUsageSchema],
-  totalDiscount: {
-    type: Number,
-    default: 0,
-    min: 0,
-  },
-
-  // Payment Schedule
   nextPaymentDate: {
     type: Date,
   },
+
   lastPaymentDate: {
     type: Date,
   },
+
+  // Applied Coupons
+  appliedCoupons: [{
+    couponCode: {
+      type: String,
+      trim: true,
+    },
+    discountAmount: {
+      type: Number,
+      min: 0,
+    },
+    discountType: {
+      type: String,
+      enum: ['percentage', 'fixed'],
+    },
+    originalValue: {
+      type: Number,
+      min: 0,
+    },
+    appliedAt: {
+      type: Date,
+      default: Date.now,
+    },
+  }],
+  
+  // EMI Information (legacy - keeping for backward compatibility)
+  emiPayments: [emiPaymentSchema],
+  // Payment History
+  paymentTransactions: [paymentTransactionSchema],
+
+  discountDetails: {
+    discountAmount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    discountType: {
+      type: String,
+      enum: ['percentage', 'fixed'],
+      default: 'percentage',
+    },
+    discountCode: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+   
+  },
+
+ 
 
   // Late Payment Information
   lateFees: {
@@ -273,39 +315,22 @@ const paymentInformationSchema = new mongoose.Schema({
     refundDate: {
       type: Date,
     },
+    description: {
+      type: String,
+      trim: true,
+      default: '',
+    },
   },
 
   // Payment Settings
-  autoDebit: {
-    enabled: {
-      type: Boolean,
-      default: false,
-    },
-    bankAccount: {
-      accountNumber: String,
-      ifscCode: String,
-      accountHolderName: String,
-    },
-    upiId: {
-      type: String,
-      trim: true,
-    },
-  },
+  
 
   // Status and Settings
   isActive: {
     type: Boolean,
     default: true,
   },
-  paymentReminders: {
-    enabled: {
-      type: Boolean,
-      default: true,
-    },
-    lastReminderSent: {
-      type: Date,
-    },
-  },
+ 
 
   // Additional Information
   remarks: {
@@ -322,6 +347,7 @@ const paymentInformationSchema = new mongoose.Schema({
 
 // Indexes for efficient querying
 paymentInformationSchema.index({ userId: 1 });
+paymentInformationSchema.index({ admissionId: 1 });
 paymentInformationSchema.index({ courseId: 1 });
 paymentInformationSchema.index({ paymentStatus: 1 });
 paymentInformationSchema.index({ nextPaymentDate: 1 });
@@ -329,12 +355,12 @@ paymentInformationSchema.index({ 'emiPayments.dueDate': 1 });
 
 // Pre-save middleware to calculate derived fields
 paymentInformationSchema.pre('save', function(next) {
-  // Calculate total amount due
-  this.totalAmountDue = this.totalFee - this.totalAmountPaid + this.lateFees.totalLateFees - this.totalDiscount;
+  // Calculate total amount due (original fee - payments - discounts + late fees)
+  this.totalAmountDue = this.totalFee - this.totalAmountPaid - this.totalDiscount + this.lateFees.totalLateFees;
   
   // Calculate EMIs remaining
   if (this.emiPlan && this.emiPlan.totalEmis > 0) {
-    this.emiPlan.emisRemaining = this.emiPlan.totalEmis - this.emiPlan.emisPaid;
+    this.emiPlan.emisRemaining = this.emiPlan.totalEmis - (this.emiPlan.emisPaid || 0);
   }
   
   // Update payment status based on amounts
@@ -347,7 +373,7 @@ paymentInformationSchema.pre('save', function(next) {
   }
   
   // Set next payment date if not set and EMIs are remaining
-  if (!this.nextPaymentDate && this.emiPlan && this.emiPlan.emisRemaining > 0) {
+  if (!this.nextPaymentDate && this.emiPlan && this.emiPlan.emiPayments && this.emiPlan.emisRemaining > 0) {
     const lastPaidEmi = this.emiPlan.emiPayments
       .filter(emi => emi.status === 'paid')
       .sort((a, b) => b.emiNumber - a.emiNumber)[0];
@@ -370,6 +396,10 @@ paymentInformationSchema.pre('save', function(next) {
 paymentInformationSchema.methods.calculateLateFees = function() {
   const today = new Date();
   let totalLateFees = 0;
+  
+  if (!this.emiPlan || !this.emiPlan.emiPayments) {
+    return totalLateFees;
+  }
   
   this.emiPlan.emiPayments.forEach(emi => {
     if (emi.status === 'pending' && emi.dueDate < today) {
@@ -401,7 +431,7 @@ paymentInformationSchema.methods.recordPayment = function(amount, method, transa
   this.lastPaymentDate = new Date();
   
   // Update EMI payments if applicable
-  if (this.emiPlan && this.emiPlan.emiPayments.length > 0) {
+  if (this.emiPlan && this.emiPlan.emiPayments && this.emiPlan.emiPayments.length > 0) {
     let remainingAmount = amount;
     const pendingEmis = this.emiPlan.emiPayments
       .filter(emi => emi.status === 'pending')

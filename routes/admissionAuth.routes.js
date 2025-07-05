@@ -14,7 +14,7 @@ router.post('/signup', signup);
 router.post('/login', login);
 
 // Protected routes (authentication required)
-router.get('/profile', verifySession, getProfile);
+router.get('/profile/:id', getProfile);
 router.post('/logout', verifySession, logout);
 
 // Health check route

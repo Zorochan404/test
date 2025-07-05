@@ -32,6 +32,7 @@ import EnquiryRouter from './routes/enquiry.routes.js';
 import AdmissionAuthRouter from './routes/admissionAuth.routes.js';
 import PaymentInformationRouter from './routes/paymentInformation.routes.js';
 import CareerPostRouter from './routes/careerPost.routes.js';
+import MentorRouter from './routes/mentor.routes.js';
 import { errorHandler, createErrorResponse } from './utils/errorHandler.js';
 
 const app = express();
@@ -73,7 +74,7 @@ app.use('/api/v1/about-us/statistics', AboutUsStatisticRouter);
 app.use('/api/v1/about-us/core-values', AboutUsCoreValueRouter);
 app.use('/api/v1/about-us/campus-images', AboutUsCampusImageRouter);
 app.use('/api/v1/about-us/content', AboutUsContentRouter);
-app.use('/api/v1/courses', CourseRouter);
+app.use('/api/v1/courses', CourseRouter); 
 app.use('/api/v1/free-courses', FreeCoursesRouter);
 app.use('/api/v1/upload', UploadRouter);
 app.use('/api/v1/admission', AdmissionRouter);
@@ -81,6 +82,7 @@ app.use('/api/v1/enquiries', EnquiryRouter);
 app.use('/api/v1/admission-auth', AdmissionAuthRouter);
 app.use('/api/v1/payment-information', PaymentInformationRouter);
 app.use('/api/v1/career-posts', CareerPostRouter);
+app.use('/api/v1/mentor', MentorRouter);
 
 app.get("/", (req, res) => {
     res.json({
