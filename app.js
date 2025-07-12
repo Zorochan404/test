@@ -34,6 +34,9 @@ import PaymentInformationRouter from './routes/paymentInformation.routes.js';
 import CareerPostRouter from './routes/careerPost.routes.js';
 import MentorRouter from './routes/mentor.routes.js';
 import NewsRouter from './routes/news.routes.js';
+import RoleUserRouter from './routes/RoleUser.js';
+import RoleRouter from './routes/roles.js';
+import PermissionRouter from './routes/permissions.js';
 import { errorHandler, createErrorResponse } from './utils/errorHandler.js';
 
 const app = express();
@@ -45,7 +48,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://admin.inframeschool.com', 'https://test3-iota-ten.vercel.app', 'https://inframe-wine.vercel.app'],
+    origin: ['http://localhost:3000', 'https://admin.inframeschool.com', 'https://test3-haqa2zjfg-zorochan404s-projects.vercel.app', 'https://inframe-wine.vercel.app'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -85,6 +88,9 @@ app.use('/api/v1/payment-information', PaymentInformationRouter);
 app.use('/api/v1/career-posts', CareerPostRouter);
 app.use('/api/v1/mentor', MentorRouter);
 app.use('/api/v1/news', NewsRouter);
+app.use('/api/v1/role-users', RoleUserRouter);
+app.use('/api/v1/roles', RoleRouter);
+app.use('/api/v1/permissions', PermissionRouter);
 
 app.get("/", (req, res) => {
     res.json({

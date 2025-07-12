@@ -26,7 +26,7 @@ AdmissionRouter.delete('/user/:userId', deleteAdmissionByUserId);
 AdmissionRouter.get('/user/:userId/refresh', refreshAdmissionData);
 AdmissionRouter.get('/debug/:admissionId', debugAdmissionState);
 
-// General admission endpoints
+// General admission endpoints22
 AdmissionRouter.post('/add', createAdmission);
 AdmissionRouter.get('/all', getAdmissions);
 AdmissionRouter.get('/:id', getAdmissionById);
