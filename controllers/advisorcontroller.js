@@ -1,4 +1,4 @@
-import Advisor from "../models/advisors.js";
+import Advisor from "../models/webdata/advisors.js";
 
 export const createAdvisor = async (req, res, next) => {
     try {

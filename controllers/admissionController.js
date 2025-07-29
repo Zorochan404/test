@@ -1,7 +1,7 @@
 import Admission from "../models/admission.js";
 import User from "../models/user.js";
 import PaymentInformation from "../models/paymentInformation.js";
-import Course from "../models/course.js";
+import Course from "../models/webdata/course.js";
 import { validateObjectId } from "../utils/validators.js";
 import { ErrorMessages, createErrorResponse, createSuccessResponse, asyncHandler } from "../utils/errorHandler.js";
 

@@ -1,39 +1,39 @@
 import express from 'express';
 import { PORT } from './config/env.js';
 import connectToDatabase from './database/mongodb.js';
-import CardRouter from './routes/Card.routes.js';
+import CardRouter from './routes/webdata/Card.routes.js';
 import cookieParser from 'cookie-parser';
-import LogoRouter from './routes/logo.routes.js';
-import ProgramsRouter from './routes/progams.routes.js';
-import TestimonialsRouter from './routes/testimonals.routes.js';
+import LogoRouter from './routes/webdata/logo.routes.js';
+import ProgramsRouter from './routes/webdata/progams.routes.js';
+import TestimonialsRouter from './routes/webdata/testimonals.routes.js';
 import cors from 'cors';
-import MembershipRouter from './routes/membership.routes.js';
+import MembershipRouter from './routes/webdata/membership.routes.js';
 import AdvisorRouter from './routes/advisor.routes.js';
-import BlogRouter from './routes/blog.routes.js';
-import SessionRouter from './routes/session.routes.js';
-import LifeAtInframeSectionRouter from './routes/lifeAtInframeSection.routes.js';
-import StudentServiceRouter from './routes/studentService.routes.js';
-import StudentClubRouter from './routes/studentClub.routes.js';
-import CampusEventRouter from './routes/campusEvent.routes.js';
-import GalleryImageRouter from './routes/galleryImage.routes.js';
-import SportsFacilityRouter from './routes/sportsFacility.routes.js';
-import ContactRouter from './routes/contact.routes.js';
-import DownloadRouter from './routes/download.routes.js';
-import AboutUsHeroGalleryRouter from './routes/aboutUsHeroGallery.routes.js';
-import AboutUsStatisticRouter from './routes/aboutUsStatistic.routes.js';
-import AboutUsCoreValueRouter from './routes/aboutUsCoreValue.routes.js';
-import AboutUsCampusImageRouter from './routes/aboutUsCampusImage.routes.js';
-import AboutUsContentRouter from './routes/aboutUsContent.routes.js';
-import CourseRouter from './routes/course.routes.js';
-import FreeCoursesRouter from './routes/freecourses.routes.js';
+import BlogRouter from './routes/webdata/blog.routes.js';
+import SessionRouter from './routes/webdata/session.routes.js';
+import LifeAtInframeSectionRouter from './routes/webdata/lifeAtInframeSection.routes.js';
+import StudentServiceRouter from './routes/webdata/studentService.routes.js';
+import StudentClubRouter from './routes/webdata/studentClub.routes.js';
+import CampusEventRouter from './routes/webdata/campusEvent.routes.js';
+import GalleryImageRouter from './routes/webdata/galleryImage.routes.js';
+import SportsFacilityRouter from './routes/webdata/sportsFacility.routes.js';
+import ContactRouter from './routes/webdata/contact.routes.js';
+import DownloadRouter from './routes/webdata/download.routes.js';
+import AboutUsHeroGalleryRouter from './routes/webdata/aboutUsHeroGallery.routes.js';
+import AboutUsStatisticRouter from './routes/webdata/aboutUsStatistic.routes.js';
+import AboutUsCoreValueRouter from './routes/webdata/aboutUsCoreValue.routes.js';
+import AboutUsCampusImageRouter from './routes/webdata/aboutUsCampusImage.routes.js';
+import AboutUsContentRouter from './routes/webdata/aboutUsContent.routes.js';
+import CourseRouter from './routes/webdata/course.routes.js';
+import FreeCoursesRouter from './routes/webdata/freecourses.routes.js';
 import UploadRouter from './routes/upload.routes.js';
 import AdmissionRouter from './routes/admission.routes.js';
-import EnquiryRouter from './routes/enquiry.routes.js';
+import EnquiryRouter from './routes/webdata/enquiry.routes.js';
 import AdmissionAuthRouter from './routes/admissionAuth.routes.js';
-import PaymentInformationRouter from './routes/paymentInformation.routes.js';
-import CareerPostRouter from './routes/careerPost.routes.js';
-import MentorRouter from './routes/mentor.routes.js';
-import NewsRouter from './routes/news.routes.js';
+import PaymentInformationRouter from './routes/webdata/paymentInformation.routes.js';
+import CareerPostRouter from './routes/webdata/careerPost.routes.js';
+import MentorRouter from './routes/webdata/mentor.routes.js';
+import NewsRouter from './routes/webdata/news.routes.js';
 import RoleUserRouter from './routes/RoleUser.js';
 import RoleRouter from './routes/roles.js';
 import PermissionRouter from './routes/permissions.js';
@@ -48,7 +48,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://admin.inframeschool.com', 'https://test3-haqa2zjfg-zorochan404s-projects.vercel.app', 'https://inframe-wine.vercel.app', 'https://test3-iota-ten.vercel.app', 'https://admission-portal-one.vercel.app'],
+    origin: ['http://localhost:3000', 'http://localhost:3001',  'https://www.inframeschool.com/','https://admin.inframeschool.com', 'https://test3-haqa2zjfg-zorochan404s-projects.vercel.app', 'https://inframe-wine.vercel.app', 'https://test3-iota-ten.vercel.app', 'https://admission-portal-one.vercel.app'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
